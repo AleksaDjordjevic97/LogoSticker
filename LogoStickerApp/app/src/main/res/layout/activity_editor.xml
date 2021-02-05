@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_screen"
+    tools:context=".EditorActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.93" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"/>
+
+
+    <ImageButton
+        android:id="@+id/btnBackEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.12"
+        app:layout_constraintHeight_percent="0.05"
+        app:srcCompat="@drawable/back_btn"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor1"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor5"
+        android:onClick="backEditorButtonClick"/>
+
+    <ImageButton
+        android:id="@+id/btnDoneEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.12"
+        app:layout_constraintHeight_percent="0.05"
+        app:srcCompat="@drawable/finish_btn"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/guidlineEditor2"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor5"
+        android:onClick="doneEditorButtonClick"/>
+
+    <FrameLayout
+        android:id="@+id/frmImageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor3">
+
+    <ImageView
+        android:id="@+id/imgLogoEditor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/logo" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/footer"
+        app:layout_constraintBottom_toTopOf="@+id/btnBgdEditor"
+        app:layout_constraintHeight_percent="0.16" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvCategoryEditor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.06"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/guidlineEditor4" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvSamplesEditor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/rcvCategoryEditor"
+        app:layout_constraintHeight_percent="0.1" />
+
+    <ImageButton
+        android:id="@+id/btnBgdEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:onClick="bgdButtonClick"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.25"
+        app:srcCompat="@drawable/bgd_btn" />
+
+    <ImageButton
+        android:id="@+id/btnLogoEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.07"
+        app:srcCompat="@drawable/logo_btn"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidlineEditor7"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor6"
+        android:onClick="logoButtonClick"/>
+
+    <ImageButton
+        android:id="@+id/btnTextEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.07"
+        app:srcCompat="@drawable/text_btn"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidlineEditor8"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor7"
+        android:onClick="textButtonClick"/>
+
+    <ImageButton
+        android:id="@+id/btnImageEditor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.07"
+        app:srcCompat="@drawable/image_btn"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor8"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="imageButtonClick" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
