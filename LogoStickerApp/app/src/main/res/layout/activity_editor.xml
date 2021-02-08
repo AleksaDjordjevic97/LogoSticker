@@ -110,27 +110,26 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="310px"
         android:src="@drawable/footer"
-        app:layout_constraintBottom_toTopOf="@+id/btnBgdEditor"
-        app:layout_constraintHeight_percent="0.16" />
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/btnBgdEditor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvCategoryEditor"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.06"
-        android:layout_marginBottom="0dp"
+        android:layout_height="116px"
+        android:layout_marginStart="10px"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/guidlineEditor4" />
+        app:layout_constraintBottom_toBottomOf="@+id/guidlineEditor4" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvSamplesEditor"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="194px"
+        android:layout_marginStart="10px"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/rcvCategoryEditor"
-        app:layout_constraintHeight_percent="0.1" />
+        app:layout_constraintBottom_toTopOf="@+id/rcvCategoryEditor"/>
 
     <ImageButton
         android:id="@+id/btnBgdEditor"

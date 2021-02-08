@@ -1,2 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    
+    <array name="bgd_categories">
+        <item>@drawable/bgd_gaming</item>
+        <item>@drawable/bgd_fashion</item>
+        <item>@drawable/bgd_makeup</item>
+        <item>@drawable/bgd_neon</item>
+        <item>@drawable/bgd_hair_salon</item>
+        <item>@drawable/bgd_photo</item>
+    </array>
+
+    <array name="bgd_icon_array">
+        <item>@array/bgd_1_icon_array</item>
+        <item>@array/bgd_2_icon_array</item>
+        <item>@array/bgd_3_icon_array</item>
+        <item>@array/bgd_4_icon_array</item>
+        <item>@array/bgd_5_icon_array</item>
+    </array>
+
+    <array name="bgd_array">
+        <item>@array/bgd_1_array</item>
+        <item>@array/bgd_2_array</item>
+        <item>@array/bgd_3_array</item>
+        <item>@array/bgd_4_array</item>
+        <item>@array/bgd_5_array</item>
+    </array>
+    
+    <array name="bgd_1_array">
+        <item>@drawable/bg_1_1</item>
+        <item>@drawable/bg_1_2</item>
+        <item>@drawable/bg_1_3</item>
+        <item>@drawable/bg_1_4</item>
+        <item>@drawable/bg_1_5</item>
+        <item>@drawable/bg_1_6</item>
+        <item>@drawable/bg_1_7</item>
+        <item>@drawable/bg_1_8</item>
+        <item>@drawable/bg_1_9</item>
+        <item>@drawable/bg_1_10</item>
+    </array>
+
+    <array name="bgd_1_icon_array">
+        <item>@drawable/icon_bg_1_1</item>
+        <item>@drawable/icon_bg_1_2</item>
+        <item>@drawable/icon_bg_1_3</item>
+        <item>@drawable/icon_bg_1_4</item>
+        <item>@drawable/icon_bg_1_5</item>
+        <item>@drawable/icon_bg_1_6</item>
+        <item>@drawable/icon_bg_1_7</item>
+        <item>@drawable/icon_bg_1_8</item>
+        <item>@drawable/icon_bg_1_9</item>
+        <item>@drawable/icon_bg_1_10</item>
+    </array>
+
+    <array name="bgd_2_array">
+        <item>@drawable/bg_2_1</item>
+        <item>@drawable/bg_2_2</item>
+        <item>@drawable/bg_2_3</item>
+        <item>@drawable/bg_2_4</item>
+        <item>@drawable/bg_2_5</item>
+        <item>@drawable/bg_2_6</item>
+        <item>@drawable/bg_2_7</item>
+        <item>@drawable/bg_2_8</item>
+        <item>@drawable/bg_2_9</item>
+        <item>@drawable/bg_2_10</item>
+    </array>
+
+    <array name="bgd_2_icon_array">
+        <item>@drawable/icon_bg_2_1</item>
+        <item>@drawable/icon_bg_2_2</item>
+        <item>@drawable/icon_bg_2_3</item>
+        <item>@drawable/icon_bg_2_4</item>
+        <item>@drawable/icon_bg_2_5</item>
+        <item>@drawable/icon_bg_2_6</item>
+        <item>@drawable/icon_bg_2_7</item>
+        <item>@drawable/icon_bg_2_8</item>
+        <item>@drawable/icon_bg_2_9</item>
+        <item>@drawable/icon_bg_2_10</item>
+    </array>
+
+
+    <array name="bgd_3_array">
+        <item>@drawable/bg_3_1</item>
+        <item>@drawable/bg_3_2</item>
+        <item>@drawable/bg_3_3</item>
+        <item>@drawable/bg_3_4</item>
+        <item>@drawable/bg_3_5</item>
+        <item>@drawable/bg_3_6</item>
+        <item>@drawable/bg_3_7</item>
+        <item>@drawable/bg_3_8</item>
+        <item>@drawable/bg_3_9</item>
+        <item>@drawable/bg_3_10</item>
+    </array>
+
+    <array name="bgd_3_icon_array">
+        <item>@drawable/icon_bg_3_1</item>
+        <item>@drawable/icon_bg_3_2</item>
+        <item>@drawable/icon_bg_3_3</item>
+        <item>@drawable/icon_bg_3_4</item>
+        <item>@drawable/icon_bg_3_5</item>
+        <item>@drawable/icon_bg_3_6</item>
+        <item>@drawable/icon_bg_3_7</item>
+        <item>@drawable/icon_bg_3_8</item>
+        <item>@drawable/icon_bg_3_9</item>
+        <item>@drawable/icon_bg_3_10</item>
+    </array>
+
+    <array name="bgd_4_array">
+        <item>@drawable/bg_4_1</item>
+        <item>@drawable/bg_4_2</item>
+        <item>@drawable/bg_4_3</item>
+        <item>@drawable/bg_4_4</item>
+        <item>@drawable/bg_4_5</item>
+        <item>@drawable/bg_4_6</item>
+        <item>@drawable/bg_4_7</item>
+        <item>@drawable/bg_4_8</item>
+        <item>@drawable/bg_4_9</item>
+        <item>@drawable/bg_4_10</item>
+    </array>
+
+    <array name="bgd_4_icon_array">
+        <item>@drawable/icon_bg_4_1</item>
+        <item>@drawable/icon_bg_4_2</item>
+        <item>@drawable/icon_bg_4_3</item>
+        <item>@drawable/icon_bg_4_4</item>
+        <item>@drawable/icon_bg_4_5</item>
+        <item>@drawable/icon_bg_4_6</item>
+        <item>@drawable/icon_bg_4_7</item>
+        <item>@drawable/icon_bg_4_8</item>
+        <item>@drawable/icon_bg_4_9</item>
+        <item>@drawable/icon_bg_4_10</item>
+    </array>
+
+    <array name="bgd_5_array">
+        <item>@drawable/bg_5_1</item>
+        <item>@drawable/bg_5_2</item>
+        <item>@drawable/bg_5_3</item>
+        <item>@drawable/bg_5_4</item>
+        <item>@drawable/bg_5_5</item>
+        <item>@drawable/bg_5_6</item>
+        <item>@drawable/bg_5_7</item>
+        <item>@drawable/bg_5_8</item>
+        <item>@drawable/bg_5_9</item>
+        <item>@drawable/bg_5_10</item>
+    </array>
+
+    <array name="bgd_5_icon_array">
+        <item>@drawable/icon_bg_5_1</item>
+        <item>@drawable/icon_bg_5_2</item>
+        <item>@drawable/icon_bg_5_3</item>
+        <item>@drawable/icon_bg_5_4</item>
+        <item>@drawable/icon_bg_5_5</item>
+        <item>@drawable/icon_bg_5_6</item>
+        <item>@drawable/icon_bg_5_7</item>
+        <item>@drawable/icon_bg_5_8</item>
+        <item>@drawable/icon_bg_5_9</item>
+        <item>@drawable/icon_bg_5_10</item>
+    </array>
+
+    <string-array name="logo_categories">
+        <item>@drawable/logo_esports</item>
+        <item>@drawable/logo_boutique</item>
+        <item>@drawable/logo_salon</item>
+        <item>@drawable/logo_light</item>
+        <item>@drawable/logo_hairdresser</item>
+        <item>@drawable/logo_shapes</item>
+    </string-array>
+
+    <array name="logo_icon_array">
+        <item>@array/sticker_1_icon_array</item>
+        <item>@array/sticker_2_icon_array</item>
+        <item>@array/sticker_3_icon_array</item>
+        <item>@array/sticker_4_icon_array</item>
+        <item>@array/sticker_5_icon_array</item>
+        <item>@array/sticker_6_icon_array</item>
+    </array>
+
+    <array name="logo_array">
+        <item>@array/sticker_1_array</item>
+        <item>@array/sticker_2_array</item>
+        <item>@array/sticker_3_array</item>
+        <item>@array/sticker_4_array</item>
+        <item>@array/sticker_5_array</item>
+        <item>@array/sticker_6_array</item>
+    </array>
+
+
+    <array name="sticker_1_array">
+        <item>@drawable/sticker_1_1</item>
+        <item>@drawable/sticker_1_2</item>
+        <item>@drawable/sticker_1_3</item>
+        <item>@drawable/sticker_1_4</item>
+        <item>@drawable/sticker_1_5</item>
+        <item>@drawable/sticker_1_6</item>
+        <item>@drawable/sticker_1_7</item>
+        <item>@drawable/sticker_1_8</item>
+        <item>@drawable/sticker_1_9</item>
+        <item>@drawable/sticker_1_10</item>
+    </array>
+
+    <array name="sticker_1_icon_array">
+        <item>@drawable/icon_sticker_1_1</item>
+        <item>@drawable/icon_sticker_1_2</item>
+        <item>@drawable/icon_sticker_1_3</item>
+        <item>@drawable/icon_sticker_1_4</item>
+        <item>@drawable/icon_sticker_1_5</item>
+        <item>@drawable/icon_sticker_1_6</item>
+        <item>@drawable/icon_sticker_1_7</item>
+        <item>@drawable/icon_sticker_1_8</item>
+        <item>@drawable/icon_sticker_1_9</item>
+        <item>@drawable/icon_sticker_1_10</item>
+    </array>
+
+    <array name="sticker_2_array">
+        <item>@drawable/sticker_2_1</item>
+        <item>@drawable/sticker_2_2</item>
+        <item>@drawable/sticker_2_3</item>
+        <item>@drawable/sticker_2_4</item>
+        <item>@drawable/sticker_2_5</item>
+        <item>@drawable/sticker_2_6</item>
+        <item>@drawable/sticker_2_7</item>
+        <item>@drawable/sticker_2_8</item>
+        <item>@drawable/sticker_2_9</item>
+        <item>@drawable/sticker_2_10</item>
+    </array>
+
+    <array name="sticker_2_icon_array">
+        <item>@drawable/icon_sticker_2_1</item>
+        <item>@drawable/icon_sticker_2_2</item>
+        <item>@drawable/icon_sticker_2_3</item>
+        <item>@drawable/icon_sticker_2_4</item>
+        <item>@drawable/icon_sticker_2_5</item>
+        <item>@drawable/icon_sticker_2_6</item>
+        <item>@drawable/icon_sticker_2_7</item>
+        <item>@drawable/icon_sticker_2_8</item>
+        <item>@drawable/icon_sticker_2_9</item>
+        <item>@drawable/icon_sticker_2_10</item>
+    </array>
+
+
+    <array name="sticker_3_array">
+        <item>@drawable/sticker_3_1</item>
+        <item>@drawable/sticker_3_2</item>
+        <item>@drawable/sticker_3_3</item>
+        <item>@drawable/sticker_3_4</item>
+        <item>@drawable/sticker_3_5</item>
+        <item>@drawable/sticker_3_6</item>
+        <item>@drawable/sticker_3_7</item>
+        <item>@drawable/sticker_3_8</item>
+        <item>@drawable/sticker_3_9</item>
+        <item>@drawable/sticker_3_10</item>
+    </array>
+
+    <array name="sticker_3_icon_array">
+        <item>@drawable/icon_sticker_3_1</item>
+        <item>@drawable/icon_sticker_3_2</item>
+        <item>@drawable/icon_sticker_3_3</item>
+        <item>@drawable/icon_sticker_3_4</item>
+        <item>@drawable/icon_sticker_3_5</item>
+        <item>@drawable/icon_sticker_3_6</item>
+        <item>@drawable/icon_sticker_3_7</item>
+        <item>@drawable/icon_sticker_3_8</item>
+        <item>@drawable/icon_sticker_3_9</item>
+        <item>@drawable/icon_sticker_3_10</item>
+    </array>
+
+    <array name="sticker_4_array">
+        <item>@drawable/sticker_4_1</item>
+        <item>@drawable/sticker_4_2</item>
+        <item>@drawable/sticker_4_3</item>
+        <item>@drawable/sticker_4_4</item>
+        <item>@drawable/sticker_4_5</item>
+        <item>@drawable/sticker_4_6</item>
+        <item>@drawable/sticker_4_7</item>
+        <item>@drawable/sticker_4_8</item>
+        <item>@drawable/sticker_4_9</item>
+        <item>@drawable/sticker_4_10</item>
+    </array>
+
+    <array name="sticker_4_icon_array">
+        <item>@drawable/icon_sticker_4_1</item>
+        <item>@drawable/icon_sticker_4_2</item>
+        <item>@drawable/icon_sticker_4_3</item>
+        <item>@drawable/icon_sticker_4_4</item>
+        <item>@drawable/icon_sticker_4_5</item>
+        <item>@drawable/icon_sticker_4_6</item>
+        <item>@drawable/icon_sticker_4_7</item>
+        <item>@drawable/icon_sticker_4_8</item>
+        <item>@drawable/icon_sticker_4_9</item>
+        <item>@drawable/icon_sticker_4_10</item>
+    </array>
+
+    <array name="sticker_5_array">
+        <item>@drawable/sticker_5_1</item>
+        <item>@drawable/sticker_5_2</item>
+        <item>@drawable/sticker_5_3</item>
+        <item>@drawable/sticker_5_4</item>
+        <item>@drawable/sticker_5_5</item>
+        <item>@drawable/sticker_5_6</item>
+        <item>@drawable/sticker_5_7</item>
+        <item>@drawable/sticker_5_8</item>
+        <item>@drawable/sticker_5_9</item>
+        <item>@drawable/sticker_5_10</item>
+    </array>
+
+    <array name="sticker_5_icon_array">
+        <item>@drawable/icon_sticker_5_1</item>
+        <item>@drawable/icon_sticker_5_2</item>
+        <item>@drawable/icon_sticker_5_3</item>
+        <item>@drawable/icon_sticker_5_4</item>
+        <item>@drawable/icon_sticker_5_5</item>
+        <item>@drawable/icon_sticker_5_6</item>
+        <item>@drawable/icon_sticker_5_7</item>
+        <item>@drawable/icon_sticker_5_8</item>
+        <item>@drawable/icon_sticker_5_9</item>
+        <item>@drawable/icon_sticker_5_10</item>
+    </array>
+
+
+    <array name="sticker_6_array">
+        <item>@drawable/sticker_6_1</item>
+        <item>@drawable/sticker_6_2</item>
+        <item>@drawable/sticker_6_3</item>
+        <item>@drawable/sticker_6_4</item>
+        <item>@drawable/sticker_6_5</item>
+        <item>@drawable/sticker_6_6</item>
+        <item>@drawable/sticker_6_7</item>
+        <item>@drawable/sticker_6_8</item>
+        <item>@drawable/sticker_6_9</item>
+        <item>@drawable/sticker_6_10</item>
+    </array>
+
+    <array name="sticker_6_icon_array">
+        <item>@drawable/icon_sticker_6_1</item>
+        <item>@drawable/icon_sticker_6_2</item>
+        <item>@drawable/icon_sticker_6_3</item>
+        <item>@drawable/icon_sticker_6_4</item>
+        <item>@drawable/icon_sticker_6_5</item>
+        <item>@drawable/icon_sticker_6_6</item>
+        <item>@drawable/icon_sticker_6_7</item>
+        <item>@drawable/icon_sticker_6_8</item>
+        <item>@drawable/icon_sticker_6_9</item>
+        <item>@drawable/icon_sticker_6_10</item>
+    </array>
+
+
+</resources>

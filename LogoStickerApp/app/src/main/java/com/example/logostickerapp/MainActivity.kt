@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity()
 
     fun shareButtonClick(shareButton: View)
     {
-        //PODELI LINK DO PRODUCT PAGE-A
+        TODO("PODELI LINK DO PRODUCT PAGE-A")
     }
 
     fun createALogoButtonClick(createALogoButton: View)
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity()
                 CREATE_A_LOGO_REQUEST_CODE ->
                 {
 
-                    //PREUZMI SLIKU I STAVI NA IMAGEVIEW ZA LOGO
+                    TODO("PREUZMI SLIKU I STAVI NA IMAGEVIEW ZA LOGO")
 
                 }
             }
