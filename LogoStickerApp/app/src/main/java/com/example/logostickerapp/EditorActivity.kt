@@ -5,14 +5,21 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.logostickerapp.customview.StickerView
 import com.example.logostickerapp.databinding.ActivityEditorBinding
 import com.example.logostickerapp.fragments.PhotoFragment
 import com.example.logostickerapp.rcvadapters.CategoryAdapter
 import com.example.logostickerapp.rcvadapters.SampleAdapter
 
-class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListener, SampleAdapter.OnSampleClickListener, PhotoFragment.PhotoFragmentListener
+class EditorActivity : AppCompatActivity(),
+                        CategoryAdapter.OnCategoryClickListener,
+                        SampleAdapter.OnSampleClickListener,
+                        PhotoFragment.PhotoFragmentListener,
+                        StickerView.StickerViewListener
 {
 
     private lateinit var binding: ActivityEditorBinding
@@ -20,6 +27,9 @@ class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListe
     private lateinit var sampleAdapter: SampleAdapter
     private val linearLayoutManagerCategory = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     private val linearLayoutManagerSample = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+    private lateinit var viewGroup:ViewGroup
+    private val stickersOnScreen:ArrayList<StickerView> = ArrayList()
+    private var selectedSticker:StickerView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -33,6 +43,7 @@ class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListe
         binding.rcvSamplesEditor.layoutManager = linearLayoutManagerSample
 
         binding.btnBgdEditor.performClick()
+        viewGroup = binding.frmImageLayout
 
     }
 
@@ -77,6 +88,11 @@ class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListe
     fun doneEditorButtonClick(doneButton: View)
     {
         TODO("ZAVRSENO EDITOVANJE SLIKE I VRACA SE NA POCETNI EKRAN")
+    }
+
+    fun frameViewClick(frameView: View)
+    {
+        selectedSticker?.deselectSticker()
     }
 
 
@@ -130,7 +146,7 @@ class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListe
             Glide.with(this).load(selectedPictureRes).into(binding.imgLogoEditor)
         else if(mode == "Logo")
         {
-            //AKO JE LOGO DA NAPRAVI STIKER
+            createSticker(selectedPictureRes)
         }
 
 
@@ -142,9 +158,51 @@ class EditorActivity : AppCompatActivity(), CategoryAdapter.OnCategoryClickListe
             Glide.with(this).load(photoUri).into(binding.imgLogoEditor)
         else if(mode == "Sticker")
         {
-            //AKO JE IMAGE DA NAPRAVI STIKER
+            createSticker(photoUri)
         }
     }
+
+    private fun createSticker(pictureRes:Int)
+    {
+        val newStickerView = StickerView(this,this)
+        newStickerView.setPicture(pictureRes)
+        addSticker(newStickerView)
+    }
+
+    private fun createSticker(pictureUri:Uri)
+    {
+        val newStickerView = StickerView(this,this)
+        newStickerView.setPicture(pictureUri)
+        addSticker(newStickerView)
+    }
+
+    private fun addSticker(newStickerView:StickerView)
+    {
+        viewGroup.addView(newStickerView)
+        stickersOnScreen.add(newStickerView)
+        newStickerView.selectSticker()
+        selectedSticker = newStickerView
+    }
+
+    override fun onSelectSticker(sticker: StickerView)
+    {
+        sticker.selectSticker()
+        selectedSticker = sticker
+    }
+
+    override fun onDeselectSticker()
+    {
+        selectedSticker?.deselectSticker()
+        selectedSticker = null
+    }
+
+    override fun onRemoveSticker(sticker: StickerView)
+    {
+        selectedSticker = null
+        viewGroup.removeView(sticker)
+    }
+
+
 
 
 }
