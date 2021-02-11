@@ -4,8 +4,14 @@ import android.content.res.TypedArray
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.RelativeLayout
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -14,6 +20,7 @@ import com.example.logostickerapp.databinding.ActivityEditorBinding
 import com.example.logostickerapp.fragments.PhotoFragment
 import com.example.logostickerapp.rcvadapters.CategoryAdapter
 import com.example.logostickerapp.rcvadapters.SampleAdapter
+import kotlin.math.sqrt
 
 class EditorActivity : AppCompatActivity(),
                         CategoryAdapter.OnCategoryClickListener,
@@ -55,25 +62,29 @@ class EditorActivity : AppCompatActivity(),
     fun bgdButtonClick(bgdButton: View)
     {
         categoryAdapter = CategoryAdapter(this,R.array.bgd_categories,this, "Bgd")
+
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
-
-       //DA SE ZACRVENI KADA SE SELEKTUJE
-
+        deselectTypeButtons()
+        binding.btnBgdEditor.setImageResource(R.drawable.bgd_btn_active)
     }
 
     fun logoButtonClick(logoButton: View)
     {
         categoryAdapter = CategoryAdapter(this,R.array.logo_categories,this, "Logo")
+
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
-
-        //DA SE ZACRVENI KADA SE SELEKTUJE
+        deselectTypeButtons()
+        binding.btnLogoEditor.setImageResource(R.drawable.logo_btn_active)
     }
 
     fun textButtonClick(textButton: View)
     {
-        TODO("OTVORI TEKST EDITOR")
+        //FUNKCIJA ZA TEKST
+
+        deselectTypeButtons()
+        binding.btnTextEditor.setImageResource(R.drawable.text_btn_active)
     }
 
     fun imageButtonClick(imageButton: View)
@@ -81,7 +92,8 @@ class EditorActivity : AppCompatActivity(),
         val photoFragment = PhotoFragment(this)
         photoFragment.show(supportFragmentManager,"Sticker")
 
-        //DA SE ZACRVENI KADA SE SELEKTUJE
+        deselectTypeButtons()
+        binding.btnImageEditor.setImageResource(R.drawable.image_btn_active)
     }
 
 
@@ -93,6 +105,14 @@ class EditorActivity : AppCompatActivity(),
     fun frameViewClick(frameView: View)
     {
         selectedSticker?.deselectSticker()
+    }
+
+    private fun deselectTypeButtons()
+    {
+        binding.btnBgdEditor.setImageResource(R.drawable.bgd_btn)
+        binding.btnLogoEditor.setImageResource(R.drawable.logo_btn)
+        binding.btnTextEditor.setImageResource(R.drawable.text_btn)
+        binding.btnImageEditor.setImageResource(R.drawable.image_btn)
     }
 
 
@@ -182,6 +202,17 @@ class EditorActivity : AppCompatActivity(),
         stickersOnScreen.add(newStickerView)
         newStickerView.selectSticker()
         selectedSticker = newStickerView
+
+        newStickerView.waitForLayout { newStickerView.centerView(viewGroup.width / 2, viewGroup.height / 2)}
+    }
+
+    private inline fun View.waitForLayout(crossinline f: () -> Unit) = with(viewTreeObserver) {
+        addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                removeOnGlobalLayoutListener(this)
+                f()
+            }
+        })
     }
 
     override fun onSelectSticker(sticker: StickerView)
@@ -203,6 +234,5 @@ class EditorActivity : AppCompatActivity(),
     }
 
 
-
-
 }
+

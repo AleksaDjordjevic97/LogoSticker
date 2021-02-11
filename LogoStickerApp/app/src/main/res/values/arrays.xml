@@ -10,6 +10,15 @@
         <item>@drawable/bgd_photo</item>
     </array>
 
+    <array name="bgd_categories_active">
+        <item>@drawable/bgd_gaming_active</item>
+        <item>@drawable/bgd_fashion_active</item>
+        <item>@drawable/bgd_makeup_active</item>
+        <item>@drawable/bgd_neon_active</item>
+        <item>@drawable/bgd_hair_salon_active</item>
+        <item>@drawable/bgd_photo_active</item>
+    </array>
+
     <array name="bgd_icon_array">
         <item>@array/bgd_1_icon_array</item>
         <item>@array/bgd_2_icon_array</item>
@@ -164,6 +173,15 @@
         <item>@drawable/logo_light</item>
         <item>@drawable/logo_hairdresser</item>
         <item>@drawable/logo_shapes</item>
+    </string-array>
+
+    <string-array name="logo_categories_active">
+        <item>@drawable/logo_esports_active</item>
+        <item>@drawable/logo_boutique_active</item>
+        <item>@drawable/logo_salon_active</item>
+        <item>@drawable/logo_light_active</item>
+        <item>@drawable/logo_hairdresser_active</item>
+        <item>@drawable/logo_shapes_active</item>
     </string-array>
 
     <array name="logo_icon_array">

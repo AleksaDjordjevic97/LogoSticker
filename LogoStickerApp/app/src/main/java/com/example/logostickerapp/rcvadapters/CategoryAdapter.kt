@@ -35,7 +35,7 @@ class CategoryAdapter(private val context: Context,
     {
         val categoryIconsArray: TypedArray = context.resources.obtainTypedArray(iconResArray)
         holder.btnCategory.setImageResource(categoryIconsArray.getResourceId(position,0))
-        holder.btnCategory.setOnClickListener { listener.onCategoryClick(position, mode) }
+        holder.btnCategory.setOnClickListener{ listener.onCategoryClick(position, mode) }
     }
 
     override fun getItemCount(): Int

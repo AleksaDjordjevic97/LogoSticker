@@ -10,15 +10,19 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.RelativeLayout
 import androidx.constraintlayout.utils.widget.ImageFilterView
 import com.bumptech.glide.Glide
 import com.example.logostickerapp.R
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 class StickerView @JvmOverloads constructor(
     context: Context,
@@ -31,22 +35,28 @@ class StickerView @JvmOverloads constructor(
 {
     private val DEFAULT_WIDTH = 300
     private val DEFAULT_HEIGHT = 300
-    private val MAX_WIDTH = 1200
-    private val MAX_HEIGHT = 1200
-    private var mX:Float = 0f
-    private var mY:Float = 0f
+    private val MAX_SIZE = 900
+    private var mX: Float = 0f
+    private var mY: Float = 0f
+    private var sX: Float = 0f
+    private var sY: Float = 0f
+    private var nX: Float = 0f
+    private var nY: Float = 0f
+    private var currentHeight: Int = 0
+    private var currentWidth: Int = 0
     private var modeMove = true
-    private var mPtrID1:Int = -1
-    private var mPtrID2:Int = -1
-    private var mAngle:Float = 0f
-    private var oldRotation:Float? = null
+    private var mPtrID1: Int = -1
+    private var mPtrID2: Int = -1
+    private var mAngle: Float = 0f
+    private var oldRotation: Float? = null
     private val mFPoint: PointF = PointF()
     private val mSPoint: PointF = PointF()
     private val INVALID_POINTER_ID = -1
-    private val stickerImage:ImageFilterView
-    private val btnRemove:ImageButton
-    private val btnMirror:ImageButton
-    private val btnScale:ImageButton
+    private val stickerImage: ImageFilterView
+    private val btnRemove: ImageButton
+    private val btnMirror: ImageButton
+    private val btnScale: ImageButton
+
 
     interface StickerViewListener
     {
@@ -64,12 +74,15 @@ class StickerView @JvmOverloads constructor(
         btnMirror = findViewById(R.id.btnMirrorSticker)
         btnScale = findViewById(R.id.btnScaleSticker)
 
-        btnRemove.setOnClickListener{removeSticker()}
-        btnMirror.setOnClickListener{mirrorSticker()}
+        btnRemove.setOnClickListener { removeSticker() }
+        btnMirror.setOnClickListener { mirrorSticker() }
+        btnScale.setOnTouchListener({ view: View, motionEvent: MotionEvent ->
+            scaleTouchEvent(
+                motionEvent
+            )
+        })
 
         deselectSticker()
-
-
     }
 
     private fun removeSticker()
@@ -98,7 +111,6 @@ class StickerView @JvmOverloads constructor(
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean
     {
-
         when (event.actionMasked)
         {
             MotionEvent.ACTION_MOVE ->
@@ -132,7 +144,6 @@ class StickerView @JvmOverloads constructor(
                         .start()
                 }
             }
-
 
             MotionEvent.ACTION_DOWN ->
             {
@@ -171,24 +182,38 @@ class StickerView @JvmOverloads constructor(
         return true
     }
 
-    fun setPicture(resID: Int)
+    private fun scaleTouchEvent(event: MotionEvent): Boolean
     {
-        Glide.with(context).load(resID).into(stickerImage)
+        when (event.actionMasked)
+        {
+            MotionEvent.ACTION_MOVE ->
+            {
+                nX = event.rawX
+                nY = event.rawY
+                val dX = nX - sX
+                val dY = nY - sY
+                val distance = sqrt(dX * dX + dY * dY)
+                var newDistance = distance / sqrt(2f)
+                newDistance = calculateDistanceFromCurAngle(this, sX, sY, nX, nY, newDistance)
+
+                val newWidth = returnInBoundsSize(currentWidth, newDistance.toInt())
+                val newHeight = returnInBoundsSize(currentHeight, newDistance.toInt())
+
+                resizeView(newWidth, newHeight)
+            }
+
+            MotionEvent.ACTION_DOWN ->
+            {
+                currentWidth = width
+                currentHeight = height
+                sX = event.rawX
+                sY = event.rawY
+            }
+
+
+        }
+        return true
     }
-
-    fun setPicture(uri: Uri)
-    {
-        Glide.with(context).load(uri).into(stickerImage)
-    }
-
-    fun setPicture(bitmap: Bitmap)
-    {
-        Glide.with(context).load(bitmap).into(stickerImage)
-    }
-
-
-
-
 
     private fun getRawPoint(ev: MotionEvent, index: Int, point: PointF, v: View)
     {
@@ -206,7 +231,12 @@ class StickerView @JvmOverloads constructor(
         point.set(x, y)
     }
 
-    private fun angleBetweenLines(fPoint: PointF, sPoint: PointF, nfPoint: PointF, nsPoint: PointF):Float
+    private fun angleBetweenLines(
+        fPoint: PointF,
+        sPoint: PointF,
+        nfPoint: PointF,
+        nsPoint: PointF
+    ): Float
     {
         val angle1 = atan2(((fPoint.y - sPoint.y).toDouble()), ((fPoint.x - sPoint.x).toDouble()))
         val angle2 = atan2(
@@ -215,8 +245,8 @@ class StickerView @JvmOverloads constructor(
         )
         var angle = (Math.toDegrees(angle1 - angle2) % 360).toFloat()
 
-        if(angle < -180f) angle+=360f
-        if(angle > 180f) angle -= 360f
+        if (angle < -180f) angle += 360f
+        if (angle > 180f) angle -= 360f
 
         return -angle
     }
@@ -228,19 +258,19 @@ class StickerView @JvmOverloads constructor(
         nX: Float,
         nY: Float,
         distance: Float
-    ):Float
+    ): Float
     {
         var rot = view.rotation
-        if(rot < 0) rot+=360f
+        if (rot < 0) rot += 360f
 
         var newDistance = distance
 
-        if(rot >= 0 && rot < 90)
+        if (rot >= 0 && rot < 90)
         {
-            if(nY < sY)
+            if (nY < sY)
                 newDistance *= -1
 
-        }else if (rot >= 90 && rot < 180)
+        } else if (rot >= 90 && rot < 180)
         {
             if (nX > sX)
                 newDistance *= -1
@@ -257,6 +287,27 @@ class StickerView @JvmOverloads constructor(
         }
 
         return newDistance
+    }
+
+    private fun returnInBoundsSize(currentSize: Int, newDistance: Int): Int
+    {
+        return if (currentSize + newDistance > 100)
+            if (currentSize + newDistance < MAX_SIZE)
+                currentWidth + newDistance
+            else MAX_SIZE
+        else
+            100
+    }
+
+    private fun resizeView(newWidth: Int, newHeight: Int)
+    {
+        val lp = LayoutParams(newWidth, newHeight)
+        val lp2 = RelativeLayout.LayoutParams(newWidth, newHeight)
+        lp2.setMargins(25, 25, 25, 25)
+        layoutParams = lp
+        stickerImage.layoutParams = lp2
+        stickerImage.pivotX = (newWidth / 2).toFloat()
+        stickerImage.pivotY = (newHeight / 2).toFloat()
     }
 
 
@@ -278,5 +329,32 @@ class StickerView @JvmOverloads constructor(
 
     }
 
+    fun setPicture(resID: Int)
+    {
+        Glide.with(context).load(resID).into(stickerImage)
+    }
+
+    fun setPicture(uri: Uri)
+    {
+        Glide.with(context).load(uri).into(stickerImage)
+    }
+
+    fun setPicture(bitmap: Bitmap)
+    {
+        Glide.with(context).load(bitmap).into(stickerImage)
+    }
+
+    fun centerView(centerX: Int, centerY: Int)
+    {
+        val nsW = centerX - width/2
+        val nsH = centerY - height/2
+        animate()
+            .x(nsW.toFloat())
+            .y(nsH.toFloat())
+            .setDuration(0)
+            .start()
+
+    }
 
 }
+
