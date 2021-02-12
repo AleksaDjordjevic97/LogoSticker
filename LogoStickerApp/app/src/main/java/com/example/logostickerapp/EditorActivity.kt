@@ -39,6 +39,7 @@ class EditorActivity : AppCompatActivity(),
     private var selectedSticker:StickerView? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,7 @@ class EditorActivity : AppCompatActivity(),
 
     fun bgdButtonClick(bgdButton: View)
     {
-        categoryAdapter = CategoryAdapter(this,R.array.bgd_categories,this, "Bgd")
+        categoryAdapter = CategoryAdapter(this,this, "Bgd")
 
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
@@ -71,7 +72,7 @@ class EditorActivity : AppCompatActivity(),
 
     fun logoButtonClick(logoButton: View)
     {
-        categoryAdapter = CategoryAdapter(this,R.array.logo_categories,this, "Logo")
+        categoryAdapter = CategoryAdapter(this,this, "Logo")
 
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
@@ -121,7 +122,8 @@ class EditorActivity : AppCompatActivity(),
 
         if (mode == "Bgd")
         {
-            val numOfCategories = resources.obtainTypedArray(R.array.bgd_categories).length()
+            val bgdCategoryArray = resources.obtainTypedArray(R.array.bgd_categories)
+            val numOfCategories = bgdCategoryArray.length()
 
             if (position != numOfCategories - 1)
                 setSamples(position, mode)
@@ -130,9 +132,13 @@ class EditorActivity : AppCompatActivity(),
                 val photoFragment = PhotoFragment(this)
                 photoFragment.show(supportFragmentManager, "Bgd")
             }
+            bgdCategoryArray.recycle()
         }
         else
             setSamples(position, mode)
+
+        categoryAdapter.setActiveCategory(position,mode)
+
 
     }
 
@@ -148,6 +154,8 @@ class EditorActivity : AppCompatActivity(),
 
         binding.rcvSamplesEditor.adapter = sampleAdapter
         binding.rcvSamplesEditor.visibility = View.VISIBLE
+
+        sampleIconResArray.recycle()
     }
 
     override fun onSampleClick(samplePos: Int, categoryPos: Int, mode: String)
@@ -169,7 +177,8 @@ class EditorActivity : AppCompatActivity(),
             createSticker(selectedPictureRes)
         }
 
-
+        sampleByCategoryArray.recycle()
+        samplePicturesArray.recycle()
     }
 
     override fun onGetPhoto(photoUri: Uri, mode: String?)
@@ -177,9 +186,8 @@ class EditorActivity : AppCompatActivity(),
         if(mode == "Bgd")
             Glide.with(this).load(photoUri).into(binding.imgLogoEditor)
         else if(mode == "Sticker")
-        {
             createSticker(photoUri)
-        }
+
     }
 
     private fun createSticker(pictureRes:Int)

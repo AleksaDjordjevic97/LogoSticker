@@ -37,11 +37,16 @@ class SampleAdapter(private val context: Context,
         val sampleArray: TypedArray = context.resources.obtainTypedArray(sampleIcons)
         holder.imgSample.setImageResource(sampleArray.getResourceId(position,0))
         holder.imgSample.setOnClickListener { listener.onSampleClick(position,categoryPos,mode) }
+        sampleArray.recycle()
     }
 
     override fun getItemCount(): Int
     {
-        return context.resources.obtainTypedArray(sampleIcons).length()
+        val sampleIconsArray = context.resources.obtainTypedArray(sampleIcons)
+        val itemCount = sampleIconsArray.length()
+        sampleIconsArray.recycle()
+
+        return itemCount
     }
 
 
