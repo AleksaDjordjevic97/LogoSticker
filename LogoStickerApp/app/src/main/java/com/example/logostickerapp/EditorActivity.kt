@@ -1,5 +1,6 @@
 package com.example.logostickerapp
 
+import android.content.Intent
 import android.content.res.TypedArray
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class EditorActivity : AppCompatActivity(),
                         StickerView.StickerViewListener
 {
 
+    private val TEXT_REQUEST_CODE = 100
     private lateinit var binding: ActivityEditorBinding
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var sampleAdapter: SampleAdapter
@@ -82,7 +84,9 @@ class EditorActivity : AppCompatActivity(),
 
     fun textButtonClick(textButton: View)
     {
-        //FUNKCIJA ZA TEKST
+        val textIntent = Intent(this,TextEditorActivity::class.java)
+        startActivityForResult(textIntent,TEXT_REQUEST_CODE)
+
 
         deselectTypeButtons()
         binding.btnTextEditor.setImageResource(R.drawable.text_btn_active)

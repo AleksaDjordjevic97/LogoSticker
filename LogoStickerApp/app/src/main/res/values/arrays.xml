@@ -361,5 +361,19 @@
         <item>@drawable/icon_sticker_6_10</item>
     </array>
 
+    <string-array name="fonts_array">
+        <item>fonts/AdreenaScript-Demo.ttf</item>
+        <item>fonts/alterna.ttf</item>
+        <item>fonts/DimboRegular.ttf</item>
+        <item>fonts/Eritta_Script.ttf</item>
+        <item>fonts/jabjai_heavy.ttf</item>
+        <item>fonts/koshari.ttf</item>
+        <item>fonts/RolleteQaku-Regular.ttf</item>
+        <item>fonts/StardustAdventure.ttf</item>
+        <item>fonts/thashhand.ttf</item>
+        <item>fonts/willona love.ttf</item>
+        <item>fonts/yardsale.ttf</item>
+    </string-array>
+
 
 </resources>

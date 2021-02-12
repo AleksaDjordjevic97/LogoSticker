@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_screen"
+    tools:context=".TextEditorActivity">
+
+
+    <ImageButton
+        android:id="@+id/btnBackTE"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor1TE"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor3TE"
+        app:layout_constraintWidth_percent="0.12"
+        app:srcCompat="@drawable/back_btn"
+        android:onClick="btnBackTEClick"/>
+
+    <ImageButton
+        android:id="@+id/btnDoneTE"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/guidlineEditor2TE"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor3TE"
+        app:layout_constraintWidth_percent="0.12"
+        app:srcCompat="@drawable/finish_btn"
+        android:onClick="btnDoneTEClick"/>
+
+    <com.example.logostickerapp.customview.AutoResizeEditText
+        android:id="@+id/txtInputTE"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/text_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidlineEditor4TE"
+        app:layout_constraintWidth_percent="0.83"
+        android:textColor="@color/black"
+        android:gravity="center_vertical|center_horizontal"
+        android:isScrollContainer="false"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:maxLength="240"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <ImageButton
+        android:id="@+id/btnFontTE"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.07"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/guidlineEditor6TE"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor5TE"
+        app:srcCompat="@drawable/font_btn"
+        android:onClick="btnFontTEClick"/>
+
+    <ImageButton
+        android:id="@+id/btnColorTE"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/guidlineEditor7TE"
+        app:layout_constraintHeight_percent="0.07"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor5TE"
+        app:layout_constraintWidth_percent="0.25"
+        app:srcCompat="@drawable/color_btn"
+        android:onClick="btnColorTEClick"/>
+
+    <FrameLayout
+        android:id="@+id/frameFragmentTE"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidlineEditor8TE" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor1TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor2TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor3TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor4TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor5TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor6TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.18"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor7TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.82"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineEditor8TE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
