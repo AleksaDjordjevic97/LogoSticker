@@ -66,6 +66,7 @@ class EditorActivity : AppCompatActivity(),
 
     fun bgdButtonClick(bgdButton: View)
     {
+        binding.rcvCategoryEditor.visibility = View.VISIBLE
         categoryAdapter = CategoryAdapter(this,this, "Bgd")
 
         binding.rcvCategoryEditor.adapter = categoryAdapter
@@ -76,6 +77,7 @@ class EditorActivity : AppCompatActivity(),
 
     fun logoButtonClick(logoButton: View)
     {
+        binding.rcvCategoryEditor.visibility = View.VISIBLE
         categoryAdapter = CategoryAdapter(this,this, "Logo")
 
         binding.rcvCategoryEditor.adapter = categoryAdapter
@@ -103,6 +105,8 @@ class EditorActivity : AppCompatActivity(),
 
         deselectTypeButtons()
         binding.btnTextEditor.setImageResource(R.drawable.text_btn_active)
+        binding.rcvCategoryEditor.visibility = View.GONE
+        binding.rcvSamplesEditor.visibility = View.GONE
     }
 
     fun imageButtonClick(imageButton: View)
@@ -112,6 +116,8 @@ class EditorActivity : AppCompatActivity(),
 
         deselectTypeButtons()
         binding.btnImageEditor.setImageResource(R.drawable.image_btn_active)
+        binding.rcvCategoryEditor.visibility = View.GONE
+        binding.rcvSamplesEditor.visibility = View.GONE
     }
 
 
