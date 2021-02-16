@@ -40,7 +40,11 @@ class MainActivity : AppCompatActivity()
 
     fun shareButtonClick(shareButton: View)
     {
-        TODO("PODELI LINK DO PRODUCT PAGE-A")
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Product Page")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://www.shopify.com/blog/product-page#:~:text=A%20product%20page%20is%20a,and%20facilitate%20the%20buying%20process.")
+        startActivity(Intent.createChooser(shareIntent, "Share Product Page"))
     }
 
     fun createALogoButtonClick(createALogoButton: View)
