@@ -59,6 +59,12 @@ class EditorActivity : AppCompatActivity(),
 
     }
 
+    override fun onRestart()
+    {
+        super.onRestart()
+        deselectTypeButtons()
+    }
+
     fun backEditorButtonClick(backButton: View)
     {
         finish()
@@ -229,8 +235,16 @@ class EditorActivity : AppCompatActivity(),
         if(mode == "Bgd")
             Glide.with(this).load(photoUri).into(binding.imgLogoEditor)
         else if(mode == "Sticker")
-            createSticker(photoUri,false)
+        {
+            createSticker(photoUri, false)
+            binding.btnImageEditor.setImageResource(R.drawable.image_btn)
+        }
 
+    }
+
+    override fun closedPhotoFragment()
+    {
+        binding.btnImageEditor.setImageResource(R.drawable.image_btn)
     }
 
     private fun createSticker(pictureRes:Int, isTextSticker:Boolean)
@@ -297,11 +311,13 @@ class EditorActivity : AppCompatActivity(),
             {
                 TEXT_NEW_REQUEST_CODE ->
                 {
+                    binding.btnTextEditor.setImageResource(R.drawable.text_btn)
                     val textInfo:TextStickerInfo = data?.getSerializableExtra("TEXT_STICKER_INFO") as TextStickerInfo
                     createTextSticker(textInfo)
                 }
                 TEXT_EDIT_REQUEST_CODE ->
                 {
+                    binding.btnTextEditor.setImageResource(R.drawable.text_btn)
                     val textInfo:TextStickerInfo = data?.getSerializableExtra("TEXT_STICKER_INFO") as TextStickerInfo
                     updateTextSticker(textInfo)
                 }

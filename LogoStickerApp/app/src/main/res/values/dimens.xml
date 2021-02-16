@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default__image_sticker_width">300px</dimen>
-    <dimen name="default_image_sticker_height">300px</dimen>
+    <dimen name="default__image_sticker_width">430px</dimen>
+    <dimen name="default_image_sticker_height">430px</dimen>
     <dimen name="default__text_sticker_width">340px</dimen>
     <dimen name="default_text_sticker_height">220px</dimen>
     <dimen name="default_sticker_margin">25px</dimen>

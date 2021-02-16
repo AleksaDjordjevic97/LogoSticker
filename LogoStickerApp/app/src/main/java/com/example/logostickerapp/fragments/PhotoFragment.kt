@@ -35,6 +35,7 @@ class PhotoFragment(private val listener: PhotoFragmentListener) : DialogFragmen
     interface PhotoFragmentListener
     {
         fun onGetPhoto(photoUri: Uri, mode:String?)
+        fun closedPhotoFragment()
     }
 
     override fun onStart()
@@ -68,6 +69,7 @@ class PhotoFragment(private val listener: PhotoFragmentListener) : DialogFragmen
     {
         super.onDestroyView()
         _binding = null
+        listener.closedPhotoFragment()
     }
 
 
