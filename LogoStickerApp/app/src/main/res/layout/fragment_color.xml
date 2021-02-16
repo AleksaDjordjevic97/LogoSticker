@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/text_editor_bg">
+
+    <ImageButton
+        android:id="@+id/btnColorCancel"
+        android:layout_width="130px"
+        android:layout_height="90px"
+        android:layout_marginTop="20px"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/cancel_btn"
+        app:layout_constraintStart_toStartOf="@+id/guidelineColor2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnColorDone"
+        android:layout_width="130px"
+        android:layout_height="90px"
+        android:layout_marginTop="20px"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineColor3"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/done_btn"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvColorPattern"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scrollbarSize="20px"
+        android:scrollbarThumbVertical="@color/dark_gray"
+        android:scrollbars="vertical"
+        android:layout_marginTop="150px"
+        android:layout_marginBottom="90px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineColor3"
+        app:layout_constraintStart_toEndOf="@+id/guidelineColor4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <ImageButton
+        android:id="@+id/btnColorPattern"
+        android:layout_width="0dp"
+        android:layout_height="90px"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guidelineColor1"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/pattern_btn" />
+
+    <ImageButton
+        android:id="@+id/btnColorColor"
+        android:layout_width="0dp"
+        android:layout_height="90px"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guidelineColor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/solid_btn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineColor1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineColor2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineColor3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineColor4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.09"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

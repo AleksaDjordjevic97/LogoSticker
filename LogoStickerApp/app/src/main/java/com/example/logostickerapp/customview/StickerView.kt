@@ -27,14 +27,13 @@ import kotlin.math.sqrt
 class StickerView @JvmOverloads constructor(
     context: Context,
     private val listener: StickerViewListener,
+    val isTextSticker: Boolean,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
     defStyleRes: Int = 0
 
 ) : FrameLayout(context, attrs, defStyle, defStyleRes)
 {
-    private val DEFAULT_WIDTH = 300
-    private val DEFAULT_HEIGHT = 300
     private val MAX_SIZE = 900
     private var mX: Float = 0f
     private var mY: Float = 0f
@@ -68,10 +67,11 @@ class StickerView @JvmOverloads constructor(
     init
     {
         inflate(context, R.layout.frame_sticker, this)
-        layoutParams = LayoutParams(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+        setDefaultStickerSize()
         stickerImage = findViewById(R.id.imgFrameSticker)
         btnRemove = findViewById(R.id.btnRemoveSticker)
         btnMirror = findViewById(R.id.btnMirrorSticker)
+        if (isTextSticker) btnMirror.visibility = View.GONE
         btnScale = findViewById(R.id.btnScaleSticker)
 
         btnRemove.setOnClickListener { removeSticker() }
@@ -83,6 +83,15 @@ class StickerView @JvmOverloads constructor(
         })
 
         deselectSticker()
+    }
+
+    fun setDefaultStickerSize()
+    {
+        if(isTextSticker)
+            layoutParams = LayoutParams(resources.getDimension(R.dimen.default__text_sticker_width).toInt(),resources.getDimension(R.dimen.default_text_sticker_height).toInt())
+
+        else
+            layoutParams = LayoutParams(resources.getDimension(R.dimen.default__image_sticker_width).toInt(),resources.getDimension(R.dimen.default_image_sticker_height).toInt())
     }
 
     private fun removeSticker()
@@ -303,7 +312,8 @@ class StickerView @JvmOverloads constructor(
     {
         val lp = LayoutParams(newWidth, newHeight)
         val lp2 = RelativeLayout.LayoutParams(newWidth, newHeight)
-        lp2.setMargins(25, 25, 25, 25)
+        val defaultMargin = resources.getDimension(R.dimen.default_sticker_margin).toInt()
+        lp2.setMargins(defaultMargin, defaultMargin, defaultMargin, defaultMargin)
         layoutParams = lp
         stickerImage.layoutParams = lp2
         stickerImage.pivotX = (newWidth / 2).toFloat()
@@ -322,9 +332,14 @@ class StickerView @JvmOverloads constructor(
     fun selectSticker()
     {
         listener.onDeselectSticker()
+        if(isTextSticker)
+        {
+            setDefaultStickerSize()
+            rotation = 0f
+        }
         stickerImage.setBackgroundResource(R.drawable.sticker_frame)
         btnRemove.visibility = View.VISIBLE
-        btnMirror.visibility = View.VISIBLE
+        if (!isTextSticker)  btnMirror.visibility = View.VISIBLE
         btnScale.visibility = View.VISIBLE
 
     }

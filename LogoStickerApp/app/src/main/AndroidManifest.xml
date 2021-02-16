@@ -15,8 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LogoStickerApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TextEditorActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".EditorActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".FinalActivity"></activity>
+        <activity
+            android:name=".TextEditorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

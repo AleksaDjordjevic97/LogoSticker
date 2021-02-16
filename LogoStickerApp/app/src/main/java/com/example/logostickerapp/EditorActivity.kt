@@ -1,27 +1,27 @@
 package com.example.logostickerapp
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.TypedArray
+import android.graphics.*
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import androidx.constraintlayout.utils.widget.ImageFilterView
-import androidx.core.view.iterator
+import android.widget.TextView
+import androidx.core.graphics.createBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.logostickerapp.customclasses.TextStickerInfo
 import com.example.logostickerapp.customview.StickerView
 import com.example.logostickerapp.databinding.ActivityEditorBinding
 import com.example.logostickerapp.fragments.PhotoFragment
 import com.example.logostickerapp.rcvadapters.CategoryAdapter
 import com.example.logostickerapp.rcvadapters.SampleAdapter
-import kotlin.math.sqrt
+import java.lang.Exception
 
 class EditorActivity : AppCompatActivity(),
                         CategoryAdapter.OnCategoryClickListener,
@@ -30,7 +30,8 @@ class EditorActivity : AppCompatActivity(),
                         StickerView.StickerViewListener
 {
 
-    private val TEXT_REQUEST_CODE = 100
+    private val TEXT_NEW_REQUEST_CODE = 100
+    private val TEXT_EDIT_REQUEST_CODE = 101
     private lateinit var binding: ActivityEditorBinding
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var sampleAdapter: SampleAdapter
@@ -39,6 +40,7 @@ class EditorActivity : AppCompatActivity(),
     private lateinit var viewGroup:ViewGroup
     private val stickersOnScreen:ArrayList<StickerView> = ArrayList()
     private var selectedSticker:StickerView? = null
+    private var textInfoMap:HashMap<StickerView,TextStickerInfo> = HashMap()
 
 
 
@@ -85,8 +87,19 @@ class EditorActivity : AppCompatActivity(),
     fun textButtonClick(textButton: View)
     {
         val textIntent = Intent(this,TextEditorActivity::class.java)
-        startActivityForResult(textIntent,TEXT_REQUEST_CODE)
 
+        if(selectedSticker != null && selectedSticker!!.isTextSticker)
+        {
+            val textInfo = textInfoMap[selectedSticker!!]
+            textIntent.putExtra("TEXT_STICKER_INFO",textInfo)
+            startActivityForResult(textIntent,TEXT_EDIT_REQUEST_CODE)
+        }
+        else
+        {
+            val textInfo = TextStickerInfo("","Original",90f,R.drawable.solid_1)
+            textIntent.putExtra("TEXT_STICKER_INFO",textInfo)
+            startActivityForResult(textIntent,TEXT_NEW_REQUEST_CODE)
+        }
 
         deselectTypeButtons()
         binding.btnTextEditor.setImageResource(R.drawable.text_btn_active)
@@ -104,12 +117,32 @@ class EditorActivity : AppCompatActivity(),
 
     fun doneEditorButtonClick(doneButton: View)
     {
-        TODO("ZAVRSENO EDITOVANJE SLIKE I VRACA SE NA POCETNI EKRAN")
+        onDeselectSticker()
+
+        val finalLogoBitmap = createBitmap(viewGroup.width,viewGroup.height,Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(finalLogoBitmap)
+        viewGroup.draw(canvas)
+
+        try
+        {
+            val filename = "bitmap.png"
+            val stream = this.openFileOutput(filename, Context.MODE_PRIVATE)
+            finalLogoBitmap.compress(Bitmap.CompressFormat.PNG,100,stream)
+            stream.close()
+            finalLogoBitmap.recycle()
+
+            val finalIntent = Intent(this,FinalActivity::class.java)
+            finalIntent.putExtra("FINAL_IMAGE",filename)
+            startActivity(finalIntent)
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+        }
     }
 
     fun frameViewClick(frameView: View)
     {
-        selectedSticker?.deselectSticker()
+        onDeselectSticker()
     }
 
     private fun deselectTypeButtons()
@@ -178,7 +211,7 @@ class EditorActivity : AppCompatActivity(),
             Glide.with(this).load(selectedPictureRes).into(binding.imgLogoEditor)
         else if(mode == "Logo")
         {
-            createSticker(selectedPictureRes)
+            createSticker(selectedPictureRes,false)
         }
 
         sampleByCategoryArray.recycle()
@@ -190,20 +223,20 @@ class EditorActivity : AppCompatActivity(),
         if(mode == "Bgd")
             Glide.with(this).load(photoUri).into(binding.imgLogoEditor)
         else if(mode == "Sticker")
-            createSticker(photoUri)
+            createSticker(photoUri,false)
 
     }
 
-    private fun createSticker(pictureRes:Int)
+    private fun createSticker(pictureRes:Int, isTextSticker:Boolean)
     {
-        val newStickerView = StickerView(this,this)
+        val newStickerView = StickerView(this,this,isTextSticker)
         newStickerView.setPicture(pictureRes)
         addSticker(newStickerView)
     }
 
-    private fun createSticker(pictureUri:Uri)
+    private fun createSticker(pictureUri:Uri, isTextSticker:Boolean)
     {
-        val newStickerView = StickerView(this,this)
+        val newStickerView = StickerView(this,this,isTextSticker)
         newStickerView.setPicture(pictureUri)
         addSticker(newStickerView)
     }
@@ -229,8 +262,11 @@ class EditorActivity : AppCompatActivity(),
 
     override fun onSelectSticker(sticker: StickerView)
     {
-        sticker.selectSticker()
-        selectedSticker = sticker
+        if(selectedSticker!=sticker)
+        {
+            sticker.selectSticker()
+            selectedSticker = sticker
+        }
     }
 
     override fun onDeselectSticker()
@@ -245,6 +281,87 @@ class EditorActivity : AppCompatActivity(),
         viewGroup.removeView(sticker)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == RESULT_OK)
+        {
+            when(requestCode)
+            {
+                TEXT_NEW_REQUEST_CODE ->
+                {
+                    val textInfo:TextStickerInfo = data?.getSerializableExtra("TEXT_STICKER_INFO") as TextStickerInfo
+                    createTextSticker(textInfo)
+                }
+                TEXT_EDIT_REQUEST_CODE ->
+                {
+                    val textInfo:TextStickerInfo = data?.getSerializableExtra("TEXT_STICKER_INFO") as TextStickerInfo
+                    updateTextSticker(textInfo)
+                }
+            }
+        }
+    }
+
+    private fun createTextSticker(textInfo:TextStickerInfo)
+    {
+        val stickerView = StickerView(this,this, true)
+        convertTextToBitmap(stickerView,textInfo)
+        addSticker(stickerView)
+    }
+
+    private fun convertTextToBitmap(stickerView:StickerView,textInfo:TextStickerInfo)
+    {
+        val textViewTemp = TextView(this)
+        textViewTemp.setLayerType(View.LAYER_TYPE_SOFTWARE,null)
+
+        if(textInfoMap.containsKey(stickerView))
+            textInfoMap.remove(stickerView)
+
+        textInfoMap[stickerView] = textInfo
+
+        textViewTemp.text = textInfo.content
+        textViewTemp.setTextSize(TypedValue.COMPLEX_UNIT_PX,300f)
+        textViewTemp.typeface = getTypefaceFromName(textInfo.fontName)
+        textViewTemp.setTextColor(Color.BLACK)
+        setColorPattern(textViewTemp,textInfo.colorResource)
+        textViewTemp.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        viewGroup.addView(textViewTemp)
+
+        textViewTemp.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED))
+        textViewTemp.layout(0,0,textViewTemp.measuredWidth,textViewTemp.measuredHeight)
+
+        val textBitmap = Bitmap.createBitmap(textViewTemp.measuredWidth,textViewTemp.measuredHeight,Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(textBitmap)
+        textViewTemp.draw(canvas)
+
+        stickerView.setPicture(textBitmap)
+
+        viewGroup.removeView(textViewTemp)
+
+    }
+
+    private fun getTypefaceFromName(fontName:String):Typeface
+    {
+        return if(fontName == "Original")
+            Typeface.DEFAULT
+        else
+            Typeface.createFromAsset(assets,fontName)
+    }
+
+    private fun setColorPattern(textView:TextView,imgRes:Int)
+    {
+        val colorBitmap = BitmapFactory.decodeResource(resources,imgRes)
+        val shader = BitmapShader(colorBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+        textView.paint.shader = shader
+        val originalText = textView.text.toString()
+        textView.text = originalText
+    }
+
+    private fun updateTextSticker(textInfo: TextStickerInfo)
+    {
+        selectedSticker?.let { convertTextToBitmap(it, textInfo) }
+    }
 
 }
 

@@ -1,19 +1,21 @@
 package com.example.logostickerapp
 
 import android.content.Context
-import android.graphics.Typeface
+import android.content.Intent
+import android.graphics.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.replace
+import com.example.logostickerapp.customclasses.TextStickerInfo
 import com.example.logostickerapp.databinding.ActivityTextEditorBinding
 import com.example.logostickerapp.fragments.ColorFragment
 import com.example.logostickerapp.fragments.FontFragment
 import com.example.logostickerapp.fragments.KeyboardFragment
+import com.example.logostickerapp.rcvadapters.ColorAdapter
 import com.example.logostickerapp.rcvadapters.FontAdapter
 
-class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboardListener, FontAdapter.OnFontClickListener
+class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboardListener, FontAdapter.OnFontClickListener, ColorAdapter.OnColorClickListener
 {
 
     private lateinit var binding:ActivityTextEditorBinding
@@ -23,6 +25,7 @@ class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboar
     private lateinit var inputMethodManager: InputMethodManager
     private var currentText = ""
     private var currentFont = "Original"
+    private var currentColor = R.drawable.solid_1
 
 
 
@@ -43,6 +46,7 @@ class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboar
 
         binding.txtInputTE.setOnFocusChangeListener{ view: View, hasFocus: Boolean -> if(hasFocus) openKeyboard()}
 
+        setInitialText()
     }
 
     fun btnBackTEClick(btnBackTE: View)
@@ -52,6 +56,15 @@ class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboar
 
     fun btnDoneTEClick(btnDoneTE:View)
     {
+        val rawTextContent = binding.txtInputTE.text.toString()
+        val linesInRawTextContent = binding.txtInputTE.lineCount
+        val editedTextContent = insertNewLineCharsInText(rawTextContent,linesInRawTextContent)
+        val textSize = binding.txtInputTE.textSize
+        val textInfo = TextStickerInfo(editedTextContent,currentFont,textSize,currentColor)
+        val doneEditingTextIntent = Intent()
+        doneEditingTextIntent.putExtra("TEXT_STICKER_INFO",textInfo)
+        setResult(RESULT_OK,doneEditingTextIntent)
+        finish()
 
     }
 
@@ -69,7 +82,18 @@ class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboar
 
     fun btnColorTEClick(btnColorTE:View)
     {
+        colorFragment = ColorFragment(this,currentColor)
+        supportFragmentManager.beginTransaction().replace(R.id.frameFragmentTE,colorFragment).commit()
+    }
 
+    override fun onColorClick(colorImgResource: Int)
+    {
+        currentColor = colorImgResource
+        val colorBitmap = BitmapFactory.decodeResource(resources,colorImgResource)
+        val shader = BitmapShader(colorBitmap,Shader.TileMode.REPEAT,Shader.TileMode.REPEAT)
+        binding.txtInputTE.paint.shader = shader
+        val originalText = binding.txtInputTE.text.toString()
+        binding.txtInputTE.setText(originalText)
     }
 
     private fun openKeyboard()
@@ -88,6 +112,49 @@ class TextEditorActivity : AppCompatActivity(), KeyboardFragment.FragmentKeyboar
 
         if(!change)
             binding.txtInputTE.setText(currentText)
+    }
+
+    private fun setInitialText()
+    {
+        val textInfo = intent.getSerializableExtra("TEXT_STICKER_INFO") as TextStickerInfo
+        binding.txtInputTE.setText(textInfo.content)
+        //MOZDA SIZE
+        onFontClick(getTypefaceFromName(textInfo.fontName),textInfo.fontName)
+        onColorClick(textInfo.colorResource)
+    }
+
+    private fun getTypefaceFromName(fontName:String):Typeface
+    {
+        return if(fontName == "Original")
+            Typeface.DEFAULT
+        else
+            Typeface.createFromAsset(assets,fontName)
+    }
+
+    private fun insertNewLineCharsInText(inputText:String,lines:Int):String
+    {
+        var resultText = inputText
+
+        if(lines > 1)
+        {
+            var nCounter = 0
+
+            for(i in 0 until lines-1)
+            {
+                val before:String
+                val after:String
+
+                val end = binding.txtInputTE.layout.getLineEnd(i)+nCounter
+                if(resultText.substring(end-1,end) != "\n")
+                {
+                    before = resultText.substring(0,end)
+                    after = resultText.substring(end)
+                    resultText = before + "\n" + after
+                    nCounter++
+                }
+            }
+        }
+        return resultText
     }
 
 

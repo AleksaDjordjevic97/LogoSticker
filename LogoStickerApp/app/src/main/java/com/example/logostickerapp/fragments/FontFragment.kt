@@ -38,11 +38,10 @@ class FontFragment(private val  listener:FontAdapter.OnFontClickListener, privat
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?
+    ): View
     {
         _binding = FragmentFontBinding.inflate(inflater,container,false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onDestroyView()

@@ -375,5 +375,67 @@
         <item>fonts/yardsale.ttf</item>
     </string-array>
 
+    <array name="color_array">
+        <item>@drawable/solid_1</item>
+        <item>@drawable/solid_2</item>
+        <item>@drawable/solid_3</item>
+        <item>@drawable/solid_4</item>
+        <item>@drawable/solid_5</item>
+        <item>@drawable/solid_6</item>
+        <item>@drawable/solid_7</item>
+        <item>@drawable/solid_8</item>
+        <item>@drawable/solid_9</item>
+        <item>@drawable/solid_10</item>
+        <item>@drawable/solid_11</item>
+        <item>@drawable/solid_12</item>
+        <item>@drawable/solid_13</item>
+        <item>@drawable/solid_14</item>
+        <item>@drawable/solid_15</item>
+        <item>@drawable/solid_16</item>
+        <item>@drawable/solid_17</item>
+        <item>@drawable/solid_18</item>
+        <item>@drawable/solid_19</item>
+        <item>@drawable/solid_20</item>
+        <item>@drawable/solid_21</item>
+        <item>@drawable/solid_22</item>
+        <item>@drawable/solid_23</item>
+        <item>@drawable/solid_24</item>
+        <item>@drawable/solid_25</item>
+        <item>@drawable/solid_26</item>
+        <item>@drawable/solid_27</item>
+        <item>@drawable/solid_28</item>
+    </array>
+
+    <array name="pattern_array">
+        <item>@drawable/pattern_1</item>
+        <item>@drawable/pattern_2</item>
+        <item>@drawable/pattern_3</item>
+        <item>@drawable/pattern_4</item>
+        <item>@drawable/pattern_5</item>
+        <item>@drawable/pattern_6</item>
+        <item>@drawable/pattern_7</item>
+        <item>@drawable/pattern_8</item>
+        <item>@drawable/pattern_9</item>
+        <item>@drawable/pattern_10</item>
+        <item>@drawable/pattern_11</item>
+        <item>@drawable/pattern_12</item>
+        <item>@drawable/pattern_13</item>
+        <item>@drawable/pattern_14</item>
+        <item>@drawable/pattern_15</item>
+        <item>@drawable/pattern_16</item>
+        <item>@drawable/pattern_17</item>
+        <item>@drawable/pattern_18</item>
+        <item>@drawable/pattern_19</item>
+        <item>@drawable/pattern_20</item>
+        <item>@drawable/pattern_21</item>
+        <item>@drawable/pattern_22</item>
+        <item>@drawable/pattern_23</item>
+        <item>@drawable/pattern_24</item>
+        <item>@drawable/pattern_25</item>
+        <item>@drawable/pattern_26</item>
+        <item>@drawable/pattern_27</item>
+        <item>@drawable/pattern_28</item>
+    </array>
+
 
 </resources>
