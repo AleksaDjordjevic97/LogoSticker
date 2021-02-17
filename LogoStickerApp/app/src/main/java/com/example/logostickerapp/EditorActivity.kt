@@ -30,9 +30,9 @@ class EditorActivity : AppCompatActivity(),
                         StickerView.StickerViewListener
 {
 
+    private lateinit var binding: ActivityEditorBinding
     private val TEXT_NEW_REQUEST_CODE = 100
     private val TEXT_EDIT_REQUEST_CODE = 101
-    private lateinit var binding: ActivityEditorBinding
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var sampleAdapter: SampleAdapter
     private val linearLayoutManagerCategory = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
@@ -48,11 +48,9 @@ class EditorActivity : AppCompatActivity(),
     {
         super.onCreate(savedInstanceState)
         binding = ActivityEditorBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
-        binding.rcvCategoryEditor.layoutManager = linearLayoutManagerCategory
-        binding.rcvSamplesEditor.layoutManager = linearLayoutManagerSample
+        setLayoutManagers()
 
         binding.btnBgdEditor.performClick()
         viewGroup = binding.frmImageLayout
@@ -74,7 +72,6 @@ class EditorActivity : AppCompatActivity(),
     {
         binding.rcvCategoryEditor.visibility = View.VISIBLE
         categoryAdapter = CategoryAdapter(this,this, "Bgd")
-
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
         deselectTypeButtons()
@@ -85,7 +82,6 @@ class EditorActivity : AppCompatActivity(),
     {
         binding.rcvCategoryEditor.visibility = View.VISIBLE
         categoryAdapter = CategoryAdapter(this,this, "Logo")
-
         binding.rcvCategoryEditor.adapter = categoryAdapter
         binding.rcvSamplesEditor.visibility = View.GONE
         deselectTypeButtons()
@@ -117,8 +113,7 @@ class EditorActivity : AppCompatActivity(),
 
     fun imageButtonClick(imageButton: View)
     {
-        val photoFragment = PhotoFragment(this)
-        photoFragment.show(supportFragmentManager,"Sticker")
+        openPhotoFragment("Sticker")
 
         deselectTypeButtons()
         binding.btnImageEditor.setImageResource(R.drawable.image_btn_active)
@@ -131,21 +126,15 @@ class EditorActivity : AppCompatActivity(),
     {
         onDeselectSticker()
 
-        val finalLogoBitmap = createBitmap(viewGroup.width,viewGroup.height,Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(finalLogoBitmap)
-        viewGroup.draw(canvas)
+        val finalLogoBitmap = generateBitmapOfLogo()
 
         try
         {
             val filename = "bitmap.png"
-            val stream = this.openFileOutput(filename, Context.MODE_PRIVATE)
-            finalLogoBitmap.compress(Bitmap.CompressFormat.PNG,100,stream)
-            stream.close()
+            compressBitmapToStream(filename, finalLogoBitmap)
             finalLogoBitmap.recycle()
+            sendLogoToFinal(filename)
 
-            val finalIntent = Intent(this,FinalActivity::class.java)
-            finalIntent.putExtra("FINAL_IMAGE",filename)
-            startActivity(finalIntent)
         }catch (e:Exception)
         {
             e.printStackTrace()
@@ -157,12 +146,24 @@ class EditorActivity : AppCompatActivity(),
         onDeselectSticker()
     }
 
+    private fun setLayoutManagers()
+    {
+        binding.rcvCategoryEditor.layoutManager = linearLayoutManagerCategory
+        binding.rcvSamplesEditor.layoutManager = linearLayoutManagerSample
+    }
+
     private fun deselectTypeButtons()
     {
         binding.btnBgdEditor.setImageResource(R.drawable.bgd_btn)
         binding.btnLogoEditor.setImageResource(R.drawable.logo_btn)
         binding.btnTextEditor.setImageResource(R.drawable.text_btn)
         binding.btnImageEditor.setImageResource(R.drawable.image_btn)
+    }
+
+    private fun openPhotoFragment(mode:String)
+    {
+        val photoFragment = PhotoFragment(this)
+        photoFragment.show(supportFragmentManager, mode)
     }
 
 
@@ -177,10 +178,8 @@ class EditorActivity : AppCompatActivity(),
             if (position != numOfCategories - 1)
                 setSamples(position, mode)
             else
-            {
-                val photoFragment = PhotoFragment(this)
-                photoFragment.show(supportFragmentManager, "Bgd")
-            }
+                openPhotoFragment("Bgd")
+
             bgdCategoryArray.recycle()
         }
         else
@@ -193,24 +192,24 @@ class EditorActivity : AppCompatActivity(),
 
     private fun setSamples(position: Int, mode: String)
     {
-        val sampleIconResArray:TypedArray = if(mode == "Bgd")
+        val sampleIconArraysByCategory:TypedArray = if(mode == "Bgd")
             resources.obtainTypedArray(R.array.bgd_icon_array)
         else
             resources.obtainTypedArray(R.array.logo_icon_array)
 
-        val selectedResArray = sampleIconResArray.getResourceId(position, 0)
-        sampleAdapter = SampleAdapter(this, selectedResArray, this, mode, position)
+        val selectedSampleIconsArray = sampleIconArraysByCategory.getResourceId(position, 0)
+        sampleAdapter = SampleAdapter(this, selectedSampleIconsArray, this, mode, position)
 
         binding.rcvSamplesEditor.adapter = sampleAdapter
         binding.rcvSamplesEditor.visibility = View.VISIBLE
 
-        sampleIconResArray.recycle()
+        sampleIconArraysByCategory.recycle()
     }
 
     override fun onSampleClick(samplePos: Int, categoryPos: Int, mode: String)
     {
 
-        val sampleByCategoryArray = if(mode.equals("Bgd"))
+        val sampleByCategoryArray = if(mode == "Bgd")
             resources.obtainTypedArray(R.array.bgd_array)
         else
             resources.obtainTypedArray(R.array.logo_array)
@@ -222,9 +221,7 @@ class EditorActivity : AppCompatActivity(),
         if(mode == "Bgd")
             Glide.with(this).load(selectedPictureRes).into(binding.imgLogoEditor)
         else if(mode == "Logo")
-        {
             createSticker(selectedPictureRes,false)
-        }
 
         sampleByCategoryArray.recycle()
         samplePicturesArray.recycle()
@@ -251,17 +248,17 @@ class EditorActivity : AppCompatActivity(),
     {
         val newStickerView = StickerView(this,this,isTextSticker)
         newStickerView.setPicture(pictureRes)
-        addSticker(newStickerView)
+        addStickerToScreen(newStickerView)
     }
 
     private fun createSticker(pictureUri:Uri, isTextSticker:Boolean)
     {
         val newStickerView = StickerView(this,this,isTextSticker)
         newStickerView.setPicture(pictureUri)
-        addSticker(newStickerView)
+        addStickerToScreen(newStickerView)
     }
 
-    private fun addSticker(newStickerView:StickerView)
+    private fun addStickerToScreen(newStickerView:StickerView)
     {
         viewGroup.addView(newStickerView)
         stickersOnScreen.add(newStickerView)
@@ -329,7 +326,7 @@ class EditorActivity : AppCompatActivity(),
     {
         val stickerView = StickerView(this,this, true)
         convertTextToBitmap(stickerView,textInfo)
-        addSticker(stickerView)
+        addStickerToScreen(stickerView)
     }
 
     private fun convertTextToBitmap(stickerView:StickerView,textInfo:TextStickerInfo)
@@ -383,6 +380,29 @@ class EditorActivity : AppCompatActivity(),
     private fun updateTextSticker(textInfo: TextStickerInfo)
     {
         selectedSticker?.let { convertTextToBitmap(it, textInfo) }
+    }
+
+    private fun generateBitmapOfLogo():Bitmap
+    {
+        val finalLogoBitmap = createBitmap(viewGroup.width,viewGroup.height,Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(finalLogoBitmap)
+        viewGroup.draw(canvas)
+
+        return finalLogoBitmap
+    }
+
+    private fun compressBitmapToStream(filename:String, finalLogoBitmap:Bitmap)
+    {
+        val stream = this.openFileOutput(filename, Context.MODE_PRIVATE)
+        finalLogoBitmap.compress(Bitmap.CompressFormat.PNG,100,stream)
+        stream.close()
+    }
+
+    private fun sendLogoToFinal(filename:String)
+    {
+        val finalIntent = Intent(this,FinalActivity::class.java)
+        finalIntent.putExtra("FINAL_IMAGE",filename)
+        startActivity(finalIntent)
     }
 
 }

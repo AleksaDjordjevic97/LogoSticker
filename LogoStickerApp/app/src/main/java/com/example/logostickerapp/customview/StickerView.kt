@@ -55,6 +55,7 @@ class StickerView @JvmOverloads constructor(
     private val btnRemove: ImageButton
     private val btnMirror: ImageButton
     private val btnScale: ImageButton
+    private var isSelectedSticker: Boolean = false
 
 
     interface StickerViewListener
@@ -82,14 +83,13 @@ class StickerView @JvmOverloads constructor(
             )
         })
 
-        deselectSticker()
+       // deselectSticker()
     }
 
     fun setDefaultStickerSize()
     {
         if(isTextSticker)
             layoutParams = LayoutParams(resources.getDimension(R.dimen.default__text_sticker_width).toInt(),resources.getDimension(R.dimen.default_text_sticker_height).toInt())
-
         else
             layoutParams = LayoutParams(resources.getDimension(R.dimen.default__image_sticker_width).toInt(),resources.getDimension(R.dimen.default_image_sticker_height).toInt())
     }
@@ -126,31 +126,11 @@ class StickerView @JvmOverloads constructor(
             {
                 if (event.pointerCount == 2)
                 {
-                    modeMove = false
+                    rotateSticker(event)
 
-                    if (mPtrID1 != INVALID_POINTER_ID && mPtrID2 != INVALID_POINTER_ID)
-                    {
-                        val nfPoint = PointF()
-                        val nsPoint = PointF()
-
-                        getRawPoint(event, mPtrID1, nsPoint, this)
-                        getRawPoint(event, mPtrID2, nfPoint, this)
-
-                        mAngle = angleBetweenLines(mFPoint, mSPoint, nfPoint, nsPoint)
-                        mAngle = (mAngle + oldRotation!!) % 360
-
-                        stickerImage.pivotX = (width / 2).toFloat()
-                        stickerImage.pivotY = (height / 2).toFloat()
-                        rotation = mAngle
-
-                    }
-                } else if (event.pointerCount == 1 && modeMove)
+                } else if (event.pointerCount == 1 && modeMove && isSelectedSticker)
                 {
-                    animate()
-                        .x(event.rawX + mX)
-                        .y(event.rawY + mY)
-                        .setDuration(0)
-                        .start()
+                    moveSticker(event)
                 }
             }
 
@@ -191,24 +171,44 @@ class StickerView @JvmOverloads constructor(
         return true
     }
 
+    private fun rotateSticker(event: MotionEvent)
+    {
+        modeMove = false
+
+        if (mPtrID1 != INVALID_POINTER_ID && mPtrID2 != INVALID_POINTER_ID)
+        {
+            val nfPoint = PointF()
+            val nsPoint = PointF()
+
+            getRawPoint(event, mPtrID1, nsPoint, this)
+            getRawPoint(event, mPtrID2, nfPoint, this)
+
+            mAngle = angleBetweenLines(mFPoint, mSPoint, nfPoint, nsPoint)
+            mAngle = (mAngle + oldRotation!!) % 360
+
+            stickerImage.pivotX = (width / 2).toFloat()
+            stickerImage.pivotY = (height / 2).toFloat()
+            rotation = mAngle
+
+        }
+    }
+
+    private fun moveSticker(event: MotionEvent)
+    {
+        animate()
+            .x(event.rawX + mX)
+            .y(event.rawY + mY)
+            .setDuration(0)
+            .start()
+    }
+
     private fun scaleTouchEvent(event: MotionEvent): Boolean
     {
         when (event.actionMasked)
         {
             MotionEvent.ACTION_MOVE ->
             {
-                nX = event.rawX
-                nY = event.rawY
-                val dX = nX - sX
-                val dY = nY - sY
-                val distance = sqrt(dX * dX + dY * dY)
-                var newDistance = distance / sqrt(2f)
-                newDistance = calculateDistanceFromCurAngle(this, sX, sY, nX, nY, newDistance)
-
-                val newWidth = returnInBoundsSize(currentWidth, newDistance.toInt())
-                val newHeight = returnInBoundsSize(currentHeight, newDistance.toInt())
-
-                resizeView(newWidth, newHeight)
+                scaleSticker(event)
             }
 
             MotionEvent.ACTION_DOWN ->
@@ -222,6 +222,22 @@ class StickerView @JvmOverloads constructor(
 
         }
         return true
+    }
+
+    private fun scaleSticker(event: MotionEvent)
+    {
+        nX = event.rawX
+        nY = event.rawY
+        val dX = nX - sX
+        val dY = nY - sY
+        val distance = sqrt(dX * dX + dY * dY)
+        var newDistance = distance / sqrt(2f)
+        newDistance = calculateDistanceFromCurAngle(this, sX, sY, nX, nY, newDistance)
+
+        val newWidth = returnInBoundsSize(currentWidth, newDistance.toInt())
+        val newHeight = returnInBoundsSize(currentHeight, newDistance.toInt())
+
+        resizeView(newWidth, newHeight)
     }
 
     private fun getRawPoint(ev: MotionEvent, index: Int, point: PointF, v: View)
@@ -327,6 +343,7 @@ class StickerView @JvmOverloads constructor(
         btnRemove.visibility = View.GONE
         btnMirror.visibility = View.GONE
         btnScale.visibility = View.GONE
+        isSelectedSticker = false
     }
 
     fun selectSticker()
@@ -341,6 +358,7 @@ class StickerView @JvmOverloads constructor(
         btnRemove.visibility = View.VISIBLE
         if (!isTextSticker)  btnMirror.visibility = View.VISIBLE
         btnScale.visibility = View.VISIBLE
+        isSelectedSticker = true
 
     }
 
